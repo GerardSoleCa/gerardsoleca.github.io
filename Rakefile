@@ -1,1 +1,0 @@
-../AlterNativeBlog/Rakefile

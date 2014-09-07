@@ -1,2 +1,0 @@
-gerardsoleca.github.io
-======================
