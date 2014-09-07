@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if page.title %}{{ page.title }} &mdash; {{ site.inc.title }}{% else %}{{ site.inc.title }} &mdash; {{ site.inc.subtitle }}{% endif %}</title>
     {% if site.inc.google_font %}<link href="https://fonts.googleapis.com/css?family={{ site.inc.google_font }}" rel="stylesheet" type="text/css">{% endif %}
+    {% stylesheet bootstrap/bootstrap %}
     {% stylesheet main %}
+    {% stylesheet fontawesome/font-awesome %}
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/images/{{ site.inc.logo }}"/>
     <link href="{{ site_url }}/feed.xml" rel="alternate" type="application/rss+xml" title="{{ site.inc.title }}" />
@@ -55,14 +57,20 @@
             <h1>{{ site.inc.title }}</h1>
             {% if site.inc.subtitle %}<h3>{{ site.inc.subtitle }}</h3>{% endif %}
         
+            {% if site.inc.linkedin %}
+             <a href="{{ site.inc.linkedin }}" title="See LinkedIn" target="_blank"><i class="fa fa-linkedin"></i></a>
+            {% endif %}
+            {% if site.inc.github %}
+             <a href="https://github.com/{{ site.inc.github }}" title="Open {{ site.inc.title }}'s Github" target="_blank"><i class="fa fa-github"></i></a>
+            {% endif %}
             {% if site.inc.twitter %}
-            <a href="https://twitter.com/{{ site.inc.twitter }}" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter"></i></a>
+            <a href="https://twitter.com/{{ site.inc.twitter }}" title="Follow on Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
             {% endif %}
             {% if site.inc.facebook %}
-            <a href="http://facebook.com/{{ site.inc.facebook }}" title="Like on Facebook" target="_blank"><i class="icon icon-facebook"></i></a>
+            <a href="http://facebook.com/{{ site.inc.facebook }}" title="Like on Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
             {% endif %}
             <a href="/feed.xml" title="RSS Feed">
-                <i class="icon icon-rss"></i>
+                <i class="fa fa-rss"></i>
             </a>
         </div>
     </section>
@@ -79,18 +87,6 @@
             <a href="/">Blog</a> &middot;
             {% if site.inc.product_link %}<a href="{{ site.inc.product_link }}">Product</a> &middot; {% endif %}
             {% if site.inc.about_link %}<a href="{{ site.inc.about_link }}">About</a>{% endif %}
-        </nav>
-        
-        <nav class="social">
-            {% if site.inc.twitter %}
-            <a href="https://twitter.com/{{ site.inc.twitter }}" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
-            {% endif %}
-            {% if site.inc.facebook %}
-            <a href="http://facebook.com/{{ site.inc.facebook }}" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
-            {% endif %}    
-            <a href="/feed.xml" title="RSS Feed">
-                <i class="icon icon-rss black"></i>
-            </a>
         </nav>
         <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a> and modified by <a href="https://gerardsoleca.github.io">GerardSoleCa</a></p>
     </div>

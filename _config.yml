@@ -9,6 +9,8 @@ inc:
   #company:      Birium
   #url:          http://birium.com/
   #facebook:     
+  linkedin:     http://es.linkedin.com/in/gerardsoleca
+  github:       GerardSoleCa
   twitter:      GerardSoleCa
   #gplus:        '101183822199340201470'
   about_link:   /about
@@ -20,11 +22,11 @@ inc:
   # Comments
   disqus:
     # Eg. "exampleblog" Set to false to disable comments
-    shortname:  false
+    shortname:  gerardsoleca
   
   # Sharing settings
   sharing:
-    twitter:    false
+    twitter:    true
     facebook:   false
     gplus:      false
     hn:         false
@@ -41,7 +43,7 @@ inc:
   
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
 
-url:         http://incorporated.sendtoinc.com
+url:         http://gerardsoleca.github.io
 source:      .
 destination: ./_site
 plugins:     ./_plugins
