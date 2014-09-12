@@ -7,7 +7,7 @@ image: gerard.JPG
 ---
 Gerard Solé is a Telematics Engineer (Software and Network) from the [Technical University of Catalonia - BarcelonaTech (Spain)](http://www.upc.edu/){:target="_blank"}. 
 
-From 2011 to nowadays, Gerard have been developing his professional activity as a R&D engineer in the Telematics Engineer Department in UPC and also in [AlterAid](http://alteraid.com){:target="_blank"}, being part of innovation projects focused in Backend Architectures, Systems Engineering, . During this time his knowledge and expertise is focused in several programming languages like JAVA, Javascript, NodeJS, mobile environments like Android... 
+From 2011 to nowadays, Gerard have been developing his professional activity as a R&D engineer in the Telematics Engineer Department in UPC and also in [AlterAid](http://alteraid.com){:target="_blank"}, being part of innovation projects focused in Backend Architectures, Systems Engineering, OOP and .NET stacks for embedded. During this time his knowledge and expertise is focused in several programming languages like JAVA, Javascript, NodeJS, mobile environments like Android... 
 
 Apart from software development Gerard enjoys deploying and testing new DevOps and System Administration Tools like [Docker](https://docker.com/){:target="_blank"} or even PaaS software like [OpenNebula](http://opennebula.org/){:target="_blank"}.
 
