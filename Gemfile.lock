@@ -135,7 +135,6 @@ GEM
     uglifier (2.5.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    wdm (0.1.0)
     yajl-ruby (1.1.0)
 
 PLATFORMS
@@ -150,4 +149,3 @@ DEPENDENCIES
   rake
   sass
   uglifier
-  wdm (~> 0.1.0)
