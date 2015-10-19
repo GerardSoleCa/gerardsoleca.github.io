@@ -4,6 +4,7 @@ require "tmpdir"
 require "bundler/setup"
 require "jekyll"
 
+require "execjs"
 
 # Change your GitHub reponame eg. "kippt/jekyll-incorporated"
 GITHUB_REPONAME = "GerardSoleCa/gerardsoleca.github.io"

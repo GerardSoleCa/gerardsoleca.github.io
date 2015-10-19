@@ -142,6 +142,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  execjs
   github-pages
   jekyll
   jekyll-assets
