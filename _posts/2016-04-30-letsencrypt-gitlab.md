@@ -17,7 +17,7 @@ Let’s Encrypt is a new Certificate Authority: It’s free, automated, and open
 
 ![Let's Encrypt](https://letsencrypt.org/images/letsencrypt-logo-horizontal.svg)
 
-This entry is a *tl;dr* of [https://webnugget.de/setting-up-gitlab-with-free-ssl-certs-from-lets-encrypt-on-ubuntu-14-04/](https://webnugget.de/setting-up-gitlab-with-free-ssl-certs-from-lets-encrypt-on-ubuntu-14-04/) which explains from the very beginning how to implement the full software stack. Here I'm omit some parts and some descriptions, just going straight to the setup. I'm adding this to the blog just in case of the original source disappears.
+This entry is a *tl;dr* of [https://webnugget.de/setting-up-gitlab-with-free-ssl-certs-from-lets-encrypt-on-ubuntu-14-04/](https://webnugget.de/setting-up-gitlab-with-free-ssl-certs-from-lets-encrypt-on-ubuntu-14-04/) which explains from the very beginning how to implement the full software stack. Here I’m omitting some parts and some descriptions. I'm also using this post entry as a preservation of the original content. So full merits for them.
 <!-- more -->
 
 ## Install Let's Encrypt
