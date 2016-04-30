@@ -13,25 +13,31 @@
     <link href="{{ site_url }}/feed.xml" rel="alternate" type="application/rss+xml" title="{{ site.inc.title }}" />
     <meta name="title" content="{% if page.title %}{{ page.title }} {% else %}{{ site.inc.title }}{% endif %}">
     <link rel="canonical" href="{{ site.url }}{{ page.url }}">
-    {% if page.site.gplus %}<link rel="publisher" href="https://plus.google.com/{{ site.inc.gplus }}">{% endif %} 
-    {% if page.author.gplus %}<link rel="author" href="https://plus.google.com/{{ page.author.gplus }}">{% endif %}       
+    {% if page.site.gplus %}<link rel="publisher" href="https://plus.google.com/{{ site.inc.gplus }}">{% endif %}
+    {% if page.author.gplus %}<link rel="author" href="https://plus.google.com/{{ page.author.gplus }}">{% endif %}
     <meta property="og:title" content="{% if page.title %}{{ page.title }} {% else %}{{ site.inc.title }}{% endif %}"/>
     <meta property="og:url" content="{{ site.url }}{{ page.url }}"/>
     {% if page.cover_image %}
     <meta property="og:image" content="{{ site.url }}/images/{{ page.cover_image }}"/>
     {% if page.main_image %}
-    <meta property="og:image" content="{{ site.url }}/images/{{ page.main_image }}"/>  
+    <meta property="og:image" content="{{ site.url }}/images/{{ page.main_image }}"/>
     {% endif %}
-    <meta property="og:image" content="{{ site.url }}/images/{{ site.inc.logo }}"/>   
+    <meta property="og:image" content="{{ site.url }}/images/{{ site.inc.logo }}"/>
     {% endif %}
+    {% if page.clean_excerpt %}
+    <meta property="og:description" content="{{ page.clean_excerpt }}"/>
+    <meta name="description" content="{{ page.clean_excerpt }}"/>
+    {% else %}
     {% if page.excerpt %}
     <meta property="og:description" content="{{ page.excerpt }}"/>
     <meta name="description" content="{{ page.excerpt }}"/>
     {% endif %}
-    <meta property="og:site_name" content="{{ site.inc.title }}">     
+    {% endif %}
+
+    <meta property="og:site_name" content="{{ site.inc.title }}">
 </head>
 <body>
-    
+
 <section class="site-nav">
     <header>
         <nav id="navigation">
@@ -51,12 +57,12 @@
 </section>
 
 <div class="blog-cover" style="background-image:url(/images/{{ site.inc.cover_image }});">
-    
+
     <section>
         <div class="container">
             <h1>{{ site.inc.title }}</h1>
             {% if site.inc.subtitle %}<h3>{{ site.inc.subtitle }}</h3>{% endif %}
-        
+
             {% if site.inc.linkedin %}
              <a href="{{ site.inc.linkedin }}" title="See LinkedIn" target="_blank"><i class="fa fa-linkedin"></i></a>
             {% endif %}
@@ -80,8 +86,8 @@
 
 <footer class="site-footer">
     <div class="container">
-        &copy; {{ site.time | date: "%Y" }} 
-        
+        &copy; {{ site.time | date: "%Y" }}
+
         <nav>
             <a href="{{ site.inc.url }}">{{ site.inc.company }}</a> &middot;
             <a href="/">Blog</a> &middot;
