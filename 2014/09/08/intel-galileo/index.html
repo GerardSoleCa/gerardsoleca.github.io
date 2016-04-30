@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intel Galileo &mdash; GerardSoleCa</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link type="text/css" rel="stylesheet" href="/assets/bootstrap/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/assets/main.css">
+    <link type="text/css" rel="stylesheet" href="/assets/fontawesome/font-awesome.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="GerardSoleCa" />
+    <meta name="title" content="Intel Galileo ">
+    <link rel="canonical" href="http://gerardsoleca.github.io/2014/09/08/intel-galileo/">
+    
+    
+    <meta property="og:title" content="Intel Galileo "/>
+    <meta property="og:url" content="http://gerardsoleca.github.io/2014/09/08/intel-galileo/"/>
+    
+    
+    
+    <meta property="og:description" content="Intel Galileo and Microsoft join forces to push Windows to any device on the World. Welcome to the Win32 of Things right now."/>
+    <meta name="description" content="Intel Galileo and Microsoft join forces to push Windows to any device on the World. Welcome to the Win32 of Things right now."/>
+    
+    
+
+    <meta property="og:site_name" content="GerardSoleCa">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="/">
+                
+            </a>
+            <a href="/" class="home">Blog</a>
+            
+            <a href="/about">About</a>
+        </nav>
+        
+    </header>
+</section>
+
+<div class="blog-cover" style="background-image:url(/images/bridge.jpg);">
+
+    <section>
+        <div class="container">
+            <h1>GerardSoleCa</h1>
+            <h3>Pushing my dev adventures to the world</h3>
+
+            
+             <a href="http://es.linkedin.com/in/gerardsoleca" title="See LinkedIn" target="_blank"><i class="fa fa-linkedin"></i></a>
+            
+            
+             <a href="https://github.com/GerardSoleCa" title="Open GerardSoleCa's Github" target="_blank"><i class="fa fa-github"></i></a>
+            
+            
+            <a href="https://twitter.com/GerardSoleCa" title="Follow on Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+            
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="fa fa-rss"></i>
+            </a>
+        </div>
+    </section>
+</div>
+
+
+<article>
+
+    <div class="container ">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="http://gsole.cat" title="GerardSoleCa" target="_blank">GerardSoleCa</a></address> &mdash;
+                <time pubdate datetime="2014-08-September" title="September 08, 2014">September 08, 2014</time>
+            </div>
+            <h1 class="title">Intel Galileo</h1>
+            <h2 class="subtitle">Microsoft on Devices</h2>
+        </header>
+
+        <section>
+            <p>Microsoft started a program called Windows on Devices. Its aim was create a Windows port to be included in embedded devices. The first version of this operating system was developed for Intel Galileo Board. Probably, one of the reasons for Microsoft to choose this board was its i585 CPU. The first windows supported version is the Gen. 1, support for Gen. 2 is on its way!</p>
+
+<p>I was lucky to get a sample from Microsoft (Thanks! Microsoft IoT team!), and after a couple of days testing it really promises. Microsoft has made a really good job, although this Windows version is headless, as this board, it uses the last Windows NT Kernel or at least is what <em>ver</em> command says.</p>
+
+<p>They also have implemented the <a href="http://wiring.org.co" target="_blank">Wiring API</a> so porting Arduino applications is really easy. Remember that this board shares the same socket with Arduino.</p>
+
+<p><img src="/images/intelgalileoboard/intelgalileoboard.jpg" alt="Intel Galileo Board" /></p>
+
+<p>By now, this Windows version has two big handicaps for me (and my ideas):</p>
+
+<ul>
+  <li><strong>.NET Implementation:</strong> Although they have ported a small subset of .NET classes it’s impossible to develop a fully working program using this language. If you intend to write really simple programs (like the ones that you write when you start programing) it is <em>fine</em>.</li>
+  <li><strong>Win32 API:</strong> Some functions have the same entry points, other are just removed and others are renamed. Is really hard to know exactly what has been implemented. It would be useful to have a better documentation of the API Status.</li>
+</ul>
+
+<p>Finally, I’ve two basic goals on mind, the first one is port <a href="https://github.com/GerardSoleCa/IOSharp-netmf-Linux">IOSharp</a> to this platform. But until we have a useful .NET runtime, this will be just out of my control. The second one is use <a href="https://github.com/AlexAlbala/Alter-Native">AlterNative</a> to translate .NET assemblies to C++ in order to be able to run on this machine.</p>
+
+<p>Read more information about this fantastic board at <a href="http://www.intel.com/content/www/us/en/do-it-yourself/galileo-maker-quark-board.html" target="_blank">Intel Galileo’s page</a> and if you want to know more about the operating system, check <a href="https://www.windowsondevices.com" target="_blank">Windows on Devices</a>.</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Intel Galileo" data-related="GerardSoleCa">Tweet</a>
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/gs.jpg">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/GerardSoleCa" title="" target="_blank">GerardSoleCa</a></strong><br>
+                <span class="muted">Software Engineer</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2016
+
+        <nav>
+            <a href=""></a> &middot;
+            <a href="/">Blog</a> &middot;
+            
+            <a href="/about">About</a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a> and modified by <a href="https://gerardsoleca.github.io">GerardSoleCa</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+
+
+  <!--google analytics tracking code here-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66293604-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+</body>
+</html>

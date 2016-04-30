@@ -1,0 +1,266 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link>http://gerardsoleca.github.io</link>
+    <atom:link href="http://gerardsoleca.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <description></description>
+    <language>en-us</language>
+    <pubDate>Sat, 30 Apr 2016 17:17:19 +0200</pubDate>
+    <lastBuildDate>Sat, 30 Apr 2016 17:17:19 +0200</lastBuildDate>
+
+    
+    
+    <item>
+      <title>Hands on Let's Encrypt</title>
+      <link>http://gerardsoleca.github.io/2016/04/30/letsencrypt-gitlab/</link>
+      <pubDate>Sat, 30 Apr 2016 00:00:00 +0200</pubDate>
+      <author></author>
+      <guid>http://gerardsoleca.github.io/2016/04/30/letsencrypt-gitlab</guid>
+      <description>&lt;p&gt;Let’s Encrypt is a new Certificate Authority: It’s free, automated, and open. And finally I’ve been able to use it for an internal GitLab server that we used over http. Now we are running over https!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://letsencrypt.org/images/letsencrypt-logo-horizontal.svg&quot; alt=&quot;Let&#39;s Encrypt&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This entry is a &lt;em&gt;tl;dr&lt;/em&gt; of &lt;a href=&quot;https://webnugget.de/setting-up-gitlab-with-free-ssl-certs-from-lets-encrypt-on-ubuntu-14-04/&quot;&gt;https://webnugget.de/setting-up-gitlab-with-free-ssl-certs-from-lets-encrypt-on-ubuntu-14-04/&lt;/a&gt; which explains from the very beginning how to implement the full software stack. Here I’m omitting some parts and some descriptions. I’m also using this post entry as a preservation of the original content. So full merits for them.
+&lt;!-- more --&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;install-lets-encrypt&quot;&gt;Install Let’s Encrypt&lt;/h2&gt;
+&lt;p&gt;As we want to use Let’s Encrypt to generate valid server certificates first of all the required software will be installed. Remember to elevate your permissions to admin rights.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo su&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Then, install git and clone the project repository.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;apt-get update
+apt-get install git
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /root
+git clone https://github.com/letsencrypt/letsencrypt  &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;configure-lets-encrypt&quot;&gt;Configure Let’s Encrypt&lt;/h2&gt;
+&lt;p&gt;This will provide the necessary configuration to resolve Let’s Encrypt certificates.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;mkdir /root/letsencrypt-config
+nano /root/letsencrypt-config/gitlab.ini&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Paste the following lines. Remember to change the &lt;em&gt;domains&lt;/em&gt; and &lt;em&gt;email&lt;/em&gt; lines. Email will be used by let’s encrypt just in case something happen with your certificate.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# this is the let&#39;s Encrypt config for our gitlab instance&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# use the webroot authenticator.&lt;/span&gt;
+ authenticator &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; webroot
+&lt;span class=&quot;c&quot;&gt;# the following path needs to be served by our webserver&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# to validate our domains&lt;/span&gt;
+ webroot-path &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; /var/www/letsencrypt
+
+&lt;span class=&quot;c&quot;&gt;# generate certificates for the specified domains.&lt;/span&gt;
+domains &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; gitlab.yourdomain.com
+
+&lt;span class=&quot;c&quot;&gt;# register certs with the following email address&lt;/span&gt;
+email &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; your@email.com
+
+&lt;span class=&quot;c&quot;&gt;# use a 4096 bit RSA key instead of 2048&lt;/span&gt;
+rsa-key-size &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 4096  &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Then, create the directory which will serve the authentication files.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;mkdir -p /var/www/letsencrypt&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;configure-gitlab&quot;&gt;Configure GitLab&lt;/h2&gt;
+
+&lt;p&gt;Edit GitLab’s configuration:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;nano /etc/gitlab/gitlab.rb&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Remember to change &lt;em&gt;gitlab.yourdomain.com&lt;/em&gt; to your server Hostname. Keep in mind that some of the following configurations could already be on your GitLab instance. &lt;strong&gt;Proceed with caution&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;external_url &lt;span class=&quot;s2&quot;&gt;&quot;http://gitlab.yourdomain.com/&quot;&lt;/span&gt;
+
+nginx[&lt;span class=&quot;s1&quot;&gt;&#39;redirect_http_to_https&#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true
+
+&lt;/span&gt;nginx[&lt;span class=&quot;s1&quot;&gt;&#39;ssl_certificate&#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/etc/letsencrypt/live/gitlab.yourdomain.com/fullchain.pem&quot;&lt;/span&gt;
+
+nginx[&lt;span class=&quot;s1&quot;&gt;&#39;ssl_certificate_key&#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/etc/letsencrypt/live/gitlab.yourdomain.com/privkey.pem&quot;&lt;/span&gt;
+
+nginx[&lt;span class=&quot;s1&quot;&gt;&#39;custom_gitlab_server_config&#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;location ^~ /.well-known {&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; alias /var/www/letsencrypt/.well-known;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;  &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Apply the new configuration.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;gitlab-ctl reconfigure&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;getting-the-certificates&quot;&gt;Getting the certificates&lt;/h2&gt;
+
+&lt;p&gt;To get the certificates, run the following command:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;/root/letsencrypt/letsencrypt-auto certonly -c /root/letsencrypt-config/gitlab.ini&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Once the certificates are resolved, change again GitLab’s configuration.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;nano /etc/gitlab/gitlab.rb&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;em&gt;change the external_url to use https instead of http&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, apply again the configuration.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;gitlab-ctl reconfigure&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Now, you should be able to access to your GitLab instance by https instead of http.&lt;/p&gt;
+
+&lt;h1 id=&quot;autoupdate-for-certificates&quot;&gt;Autoupdate for certificates&lt;/h1&gt;
+
+&lt;p&gt;Let’s Encrypt certificates have a valid life of 90 days, so to it’s important to keep them up to date. A cron job will be used to renew the certificate once per month.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;nano /etc/cron.monthly/renew-ssl-certificates&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Paste the following configuration:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+/root/.local/share/letsencrypt/bin/letsencrypt certonly -c /root/letsencrypt-config/gitlab.ini --renew-by-default
+
+gitlab-ctl restart&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Finally give execution permisions to the file.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;chmod +x /etc/cron.monthly/renew-ssl-certificates&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+    </item>
+    
+    
+    
+    
+    
+    <item>
+      <title>OpenVPN made easy</title>
+      <link>http://gerardsoleca.github.io/2015/10/17/openvpn/</link>
+      <pubDate>Sat, 17 Oct 2015 00:00:00 +0200</pubDate>
+      <author></author>
+      <guid>http://gerardsoleca.github.io/2015/10/17/openvpn</guid>
+      <description>&lt;p&gt;This is a short entry, either for me, to keep this repo on my history forever, as long as this blog lasts. And for anyone interested on a quick and efford-less way to setup an OpenVPN in seconds.&lt;/p&gt;
+
+&lt;p&gt;All merits are for &lt;a href=&quot;https://github.com/kylemanna&quot;&gt;Kylemanna&lt;/a&gt; and it’s Docker image, &lt;a href=&quot;https://github.com/kylemanna/docker-openvpn&quot;&gt;Docker-OpenVPN&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Docker</title>
+      <link>http://gerardsoleca.github.io/2015/08/13/docker/</link>
+      <pubDate>Thu, 13 Aug 2015 00:00:00 +0200</pubDate>
+      <author></author>
+      <guid>http://gerardsoleca.github.io/2015/08/13/docker</guid>
+      <description>&lt;p&gt;&lt;a href=&quot;https://docker.com&quot;&gt;Docker&lt;/a&gt; is the technology of the month for me. I’ve been working with it since AlterAid ask me to migrate their services to &lt;a href=&quot;https://digitalocean.com&quot;&gt;DigitalOcean&lt;/a&gt;. In AlterAid we had a tangle of software running in Amazon AWS. We had databases, full stacks of nodejs and java, and software that we didn’t even know that it was there.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/docker/docker.png&quot; alt=&quot;Docker Logo&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Docker provides a good way to decouple your main service into small elements that interact between them. These small pieces are called containers, basically because they contain software.&lt;/p&gt;
+
+&lt;p&gt;Containerizing services is a way to deliver software in a small, contained pieces that just works, and works as expected.&lt;/p&gt;
+
+&lt;p&gt;Containers, in docker, run in unprivileged mode and they are sandboxed. So this isolation is a good security factor. Another interesting thing is that containers only contain software, so moving this containers to another server will make the software and services run in the same way. It’s basically the philosophy of &lt;em&gt;Containerize once, run anywhere&lt;/em&gt; (and spin-up as much containers as you need!).&lt;/p&gt;
+
+&lt;p&gt;Servers don’t matter, services do. Link services and not servers!&lt;/p&gt;
+
+&lt;h4 id=&quot;and-finally-a-taste-of-alteraids-infrastructure-with-docker&quot;&gt;And finally, a taste of AlterAid’s infrastructure with Docker&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Green ones are containers serving or proxifing network services&lt;/li&gt;
+  &lt;li&gt;Blue  ones are the internal containers with their respective stacks (PHP/NodeJS)&lt;/li&gt;
+  &lt;li&gt;Yellow ones are for databases&lt;/li&gt;
+  &lt;li&gt;Red ones are storage systems&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/docker/docker-alteraid.png&quot; alt=&quot;AlterAid infrastructure&quot; /&gt;&lt;/p&gt;
+
+&lt;!--
+When you think in Docker, you think in microservices by splitting your infrastructure in small, single and solid elements that linking them together creates your whole service. Imagine for instance that, in order to run your operations, you require a database, a code-stack, an analysis system, etc... Each of these services can be split and run standalone and operating them together. So why install all o
+--&gt;
+</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>GitLab</title>
+      <link>http://gerardsoleca.github.io/2014/09/12/gitlab/</link>
+      <pubDate>Fri, 12 Sep 2014 00:00:00 +0200</pubDate>
+      <author></author>
+      <guid>http://gerardsoleca.github.io/2014/09/12/gitlab</guid>
+      <description>&lt;p&gt;Once upon a time I started a new personal project. GitHub is far the best solution for open-source projects, but is far away from being a cheap solution to private needs. After a deep search on the net I found &lt;a href=&quot;https://www.bitbucket.org&quot; target=&quot;_blank&quot;&gt;BitBucket&lt;/a&gt; a solution from Atlassian.&lt;/p&gt;
+
+&lt;p&gt;This is a really good solution for personal and small teams projects, it offers unlimited private repost for up to 5 members on a team, enough for &lt;em&gt;small&lt;/em&gt; teams. Simultaneously to BitBucket I found another solution, &lt;a href=&quot;http://gitlab.org&quot; target=&quot;_blank&quot;&gt;GitLab&lt;/a&gt;. GitLab is open-source and is offered to the community to be deployed behind a firewall. I’ve installed on a Intel Atom dedicated server in OVH and the speed is amazing taking into account the hardware where it has been deployed.&lt;/p&gt;
+
+&lt;p&gt;It’s really easy to install, setup and run. Go to &lt;a href=&quot;https://about.gitlab.com/downloads/&quot; target=&quot;_blank&quot;&gt;GitLab Downloads&lt;/a&gt; and look how 5 much commands do for you!&lt;/p&gt;
+</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>grep -r -H "shared flat" /barcelona</title>
+      <link>http://gerardsoleca.github.io/2014/09/08/searching-flat/</link>
+      <pubDate>Mon, 08 Sep 2014 00:00:00 +0200</pubDate>
+      <author></author>
+      <guid>http://gerardsoleca.github.io/2014/09/08/searching-flat</guid>
+      <description>&lt;p&gt;Since I started looking for a shared flat in Barcelona few of them caught my attention. I started sending emails to get in touch with the advertisers, but few of them replied.&lt;/p&gt;
+
+&lt;p&gt;Last Friday I went to take a look at a flat near Plaça del Centre, it was too expensive to be an indoor shared room.&lt;/p&gt;
+
+&lt;p&gt;So I’m still searching a place to live! :D&lt;/p&gt;
+</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Intel Galileo</title>
+      <link>http://gerardsoleca.github.io/2014/09/08/intel-galileo/</link>
+      <pubDate>Mon, 08 Sep 2014 00:00:00 +0200</pubDate>
+      <author></author>
+      <guid>http://gerardsoleca.github.io/2014/09/08/intel-galileo</guid>
+      <description>&lt;p&gt;Microsoft started a program called Windows on Devices. Its aim was create a Windows port to be included in embedded devices. The first version of this operating system was developed for Intel Galileo Board. Probably, one of the reasons for Microsoft to choose this board was its i585 CPU. The first windows supported version is the Gen. 1, support for Gen. 2 is on its way!&lt;/p&gt;
+
+&lt;p&gt;I was lucky to get a sample from Microsoft (Thanks! Microsoft IoT team!), and after a couple of days testing it really promises. Microsoft has made a really good job, although this Windows version is headless, as this board, it uses the last Windows NT Kernel or at least is what &lt;em&gt;ver&lt;/em&gt; command says.&lt;/p&gt;
+
+&lt;p&gt;They also have implemented the &lt;a href=&quot;http://wiring.org.co&quot; target=&quot;_blank&quot;&gt;Wiring API&lt;/a&gt; so porting Arduino applications is really easy. Remember that this board shares the same socket with Arduino.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/intelgalileoboard/intelgalileoboard.jpg&quot; alt=&quot;Intel Galileo Board&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;By now, this Windows version has two big handicaps for me (and my ideas):&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;.NET Implementation:&lt;/strong&gt; Although they have ported a small subset of .NET classes it’s impossible to develop a fully working program using this language. If you intend to write really simple programs (like the ones that you write when you start programing) it is &lt;em&gt;fine&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Win32 API:&lt;/strong&gt; Some functions have the same entry points, other are just removed and others are renamed. Is really hard to know exactly what has been implemented. It would be useful to have a better documentation of the API Status.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Finally, I’ve two basic goals on mind, the first one is port &lt;a href=&quot;https://github.com/GerardSoleCa/IOSharp-netmf-Linux&quot;&gt;IOSharp&lt;/a&gt; to this platform. But until we have a useful .NET runtime, this will be just out of my control. The second one is use &lt;a href=&quot;https://github.com/AlexAlbala/Alter-Native&quot;&gt;AlterNative&lt;/a&gt; to translate .NET assemblies to C++ in order to be able to run on this machine.&lt;/p&gt;
+
+&lt;p&gt;Read more information about this fantastic board at &lt;a href=&quot;http://www.intel.com/content/www/us/en/do-it-yourself/galileo-maker-quark-board.html&quot; target=&quot;_blank&quot;&gt;Intel Galileo’s page&lt;/a&gt; and if you want to know more about the operating system, check &lt;a href=&quot;https://www.windowsondevices.com&quot; target=&quot;_blank&quot;&gt;Windows on Devices&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    
+    
+    <item>
+      <title>Jekyll time</title>
+      <link>http://gerardsoleca.github.io/2014/09/07/jekyll-time/</link>
+      <pubDate>Sun, 07 Sep 2014 00:00:00 +0200</pubDate>
+      <author></author>
+      <guid>http://gerardsoleca.github.io/2014/09/07/jekyll-time</guid>
+      <description>&lt;p&gt;The worst thing on one dev’s life is to mess around a blog systems. Most of them are powerful but not fully functional. You require a database, a complete hosting and one or two coffee cups to deal with the &lt;em&gt;amazing&lt;/em&gt; PHP. And Wordpress of Blogspot is too mainstream for you.&lt;/p&gt;
+
+&lt;p&gt;Now, with &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; you just take care of writing.&lt;/p&gt;
+
+&lt;p&gt;Jekyll will generate a full website from just text files. You only need to take care of that simple and easy plain files, and you will get a site like this!&lt;/p&gt;
+
+&lt;p&gt;And if you want a them for you blog or site, take a look at &lt;a href=&quot;jekyllthemes.org&quot;&gt;Jekyll Themes&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jekyllrb.com/img/logo-2x.png&quot; alt=&quot;Image of Jekyll Logo&quot; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    
+
+  </channel>
+</rss>

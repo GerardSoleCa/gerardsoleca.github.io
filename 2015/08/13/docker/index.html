@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker &mdash; GerardSoleCa</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link type="text/css" rel="stylesheet" href="/assets/bootstrap/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/assets/main.css">
+    <link type="text/css" rel="stylesheet" href="/assets/fontawesome/font-awesome.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="GerardSoleCa" />
+    <meta name="title" content="Docker ">
+    <link rel="canonical" href="http://gerardsoleca.github.io/2015/08/13/docker/">
+    
+    
+    <meta property="og:title" content="Docker "/>
+    <meta property="og:url" content="http://gerardsoleca.github.io/2015/08/13/docker/"/>
+    
+    
+    
+    <meta property="og:description" content="Containerize once, run anywhere"/>
+    <meta name="description" content="Containerize once, run anywhere"/>
+    
+    
+
+    <meta property="og:site_name" content="GerardSoleCa">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="/">
+                
+            </a>
+            <a href="/" class="home">Blog</a>
+            
+            <a href="/about">About</a>
+        </nav>
+        
+    </header>
+</section>
+
+<div class="blog-cover" style="background-image:url(/images/bridge.jpg);">
+
+    <section>
+        <div class="container">
+            <h1>GerardSoleCa</h1>
+            <h3>Pushing my dev adventures to the world</h3>
+
+            
+             <a href="http://es.linkedin.com/in/gerardsoleca" title="See LinkedIn" target="_blank"><i class="fa fa-linkedin"></i></a>
+            
+            
+             <a href="https://github.com/GerardSoleCa" title="Open GerardSoleCa's Github" target="_blank"><i class="fa fa-github"></i></a>
+            
+            
+            <a href="https://twitter.com/GerardSoleCa" title="Follow on Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+            
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="fa fa-rss"></i>
+            </a>
+        </div>
+    </section>
+</div>
+
+
+<article>
+
+    <div class="container ">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="http://gsole.cat" title="GerardSoleCa" target="_blank">GerardSoleCa</a></address> &mdash;
+                <time pubdate datetime="2015-13-August" title="August 13, 2015">August 13, 2015</time>
+            </div>
+            <h1 class="title">Docker</h1>
+            <h2 class="subtitle">The tail of the great whale</h2>
+        </header>
+
+        <section>
+            <p><a href="https://docker.com">Docker</a> is the technology of the month for me. I’ve been working with it since AlterAid ask me to migrate their services to <a href="https://digitalocean.com">DigitalOcean</a>. In AlterAid we had a tangle of software running in Amazon AWS. We had databases, full stacks of nodejs and java, and software that we didn’t even know that it was there.</p>
+
+<p><img src="/images/docker/docker.png" alt="Docker Logo" /></p>
+
+<p>Docker provides a good way to decouple your main service into small elements that interact between them. These small pieces are called containers, basically because they contain software.</p>
+
+<p>Containerizing services is a way to deliver software in a small, contained pieces that just works, and works as expected.</p>
+
+<p>Containers, in docker, run in unprivileged mode and they are sandboxed. So this isolation is a good security factor. Another interesting thing is that containers only contain software, so moving this containers to another server will make the software and services run in the same way. It’s basically the philosophy of <em>Containerize once, run anywhere</em> (and spin-up as much containers as you need!).</p>
+
+<p>Servers don’t matter, services do. Link services and not servers!</p>
+
+<h4 id="and-finally-a-taste-of-alteraids-infrastructure-with-docker">And finally, a taste of AlterAid’s infrastructure with Docker</h4>
+
+<ul>
+  <li>Green ones are containers serving or proxifing network services</li>
+  <li>Blue  ones are the internal containers with their respective stacks (PHP/NodeJS)</li>
+  <li>Yellow ones are for databases</li>
+  <li>Red ones are storage systems</li>
+</ul>
+
+<p><img src="/images/docker/docker-alteraid.png" alt="AlterAid infrastructure" /></p>
+
+<!--
+When you think in Docker, you think in microservices by splitting your infrastructure in small, single and solid elements that linking them together creates your whole service. Imagine for instance that, in order to run your operations, you require a database, a code-stack, an analysis system, etc... Each of these services can be split and run standalone and operating them together. So why install all o
+-->
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Docker" data-related="GerardSoleCa">Tweet</a>
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="/images/gs.jpg">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/GerardSoleCa" title="" target="_blank">GerardSoleCa</a></strong><br>
+                <span class="muted">Software Engineer</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2016
+
+        <nav>
+            <a href=""></a> &middot;
+            <a href="/">Blog</a> &middot;
+            
+            <a href="/about">About</a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a> and modified by <a href="https://gerardsoleca.github.io">GerardSoleCa</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+
+
+  <!--google analytics tracking code here-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66293604-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+</body>
+</html>
