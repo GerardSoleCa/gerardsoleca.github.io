@@ -44,7 +44,7 @@ inc:
 
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
 
-url:         http://gerardsoleca.github.io
+url:         http://www.gsole.cat
 source:      .
 destination: ./_site
 plugins_dir:     ./_plugins
